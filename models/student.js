@@ -17,8 +17,10 @@ module.exports = function(sequelize, DataTypes) {
     birthday: DataTypes.DATE,
     email: {
       type:DataTypes.STRING,
+      isUnique: true,
       validate: {
-        isEmail: true
+        isEmail: true,
+        isUnique: sequelize.validateIsUnique('email')
         // unique: function(value) {
         //   Student.findOne({where:{email: value}}).then(function (data) {
         //     if (data.email === value) {
@@ -38,7 +40,8 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       validate: {
         isNumeric: true,
-        len: [10,15]
+        len: [10,15],
+        msg: "nomor telepon harus antara 10-15"
       }
     }
 
