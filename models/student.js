@@ -1,26 +1,58 @@
-'use strict';
+'use strict'
+
 module.exports = function(sequelize, DataTypes) {
-  var student = sequelize.define('student', {
+  var Student = sequelize.define('Student', {
     firstname: DataTypes.STRING,
     lastname: DataTypes.STRING,
-    birthdate: DataTypes.DATE
+    birthdate: DataTypes.DATE,
+    age: {
+      type: DataTypes.INTEGER,
+      validate: {min:5}
+    },
+    email: {
+      type: DataTypes.STRING,
+      validate: {
+        isEmail:true,
+        isUnique: function(newemail, next) {
+          Student.find({
+            where: {email: newemail},
+            attributes: ['id']
+          }).done(function(err){
+            if(err){
+              return err;
+            }
+            next()
+          })
+        }}
+    }
   }, {
     classMethods: {
       associate: function(models) {
         // associations can be defined here
       },
-      name: function(){
-        var fullname = `${student.firstname} ${student.lastname}`
-        return fullname
+      get_Name:function(){
+       Student.findAll({
+         attributes:['firstname']['lastname']
+       }).then((data,err)=>{
+         for (var i = 0; i < data.length; i++) {
+           console.log(`${data[i].firstname} ${data[i].lastname}`);
+         }
+       })
+     },
+      calcAge:function(){
+        Student.findAll({
+          attributes:['birthdate']
+        }).then((data,err)=>{
+          for (var i = 0; i < data.length; i++) {
+            var birthdate = new Date(`${data[i].birthdate}`);
+            var cur = new Date();
+            var diff = cur-birthdate;
+            var age = Math.floor(diff/31536000000);
+            console.log(`Usia ${age} `);
+          }
+        })
       },
-      calcage: function(){
-        var birthdate = new Date(`${student.birthdate}`);
-        var cur = new Date();
-        var diff = cur-birthdate; // This is the difference in milliseconds
-        var age = Math.floor(diff/31536000000); // Divide by 1000*60*60*24*365
-        return age
-      }
     }
   });
-  return student;
+  return Student;
 };
