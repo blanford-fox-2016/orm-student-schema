@@ -17,5 +17,16 @@
     "babel-register": "^6.7.2",
     "chai": "^3.5.0",
     "mocha": "^2.4.5"
-  }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blanford-fox-2016/orm-student-schema.git"
+  },
+  "bugs": {
+    "url": "https://github.com/blanford-fox-2016/orm-student-schema/issues"
+  },
+  "homepage": "https://github.com/blanford-fox-2016/orm-student-schema#readme"
 }
