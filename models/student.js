@@ -2,7 +2,6 @@
 var Sequelize = require('sequelize');
 require('sequelize-isunique-validator')(Sequelize);
 
-
 module.exports = function(sequelize, DataTypes) {
   var Student = sequelize.define('Student', {
     nama:DataTypes.TEXT,
