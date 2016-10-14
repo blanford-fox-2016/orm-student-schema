@@ -5,7 +5,6 @@
 module.exports = function(sequelize, DataTypes) {
   var Student = sequelize.define('Student', {
     nama:DataTypes.TEXT,
-    teacher_id:DataTypes.INTEGER,
     gender: DataTypes.TEXT,
     birthday: DataTypes.DATE,
     age:{
@@ -61,8 +60,6 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
-
-          Student.belongTo(Models.Teacher)
       },
       getName:function(){
         Student.findAll({
