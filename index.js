@@ -4,17 +4,17 @@ let models = require('./models');
 let Siswa = models.Student;
 
 Siswa.create({
-  gender:"cowok",
+  gender:"contoh2",
   birthday:"1998-09-09",
-  email:"sfirst.amdddda@gmail.com",
+  email:"testbenar.amdddda@gmail.com",
   phone:"12345678910",
   age:"6",
-  nama:"Tiiiii"
+  nama:"testbenar"
 })
 
 
 
-// Siswa.getName()
+//Siswa.getName()
 // Siswa.getAge()
 
 
