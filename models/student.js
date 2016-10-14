@@ -1,5 +1,5 @@
 'use strict';
-// const faker = require('faker')
+const faker = require('faker')
 
 module.exports = function(sequelize, DataTypes) {
   var Student = sequelize.define('Student', {
@@ -9,18 +9,7 @@ module.exports = function(sequelize, DataTypes) {
     email: {
       type: DataTypes.STRING,
       validate:{
-        isEmail:true,
-        cantSame:function(value){
-          Student.findAll({
-            attributes: ['email']
-          }).then(function(person){
-            for(var i = 0; i<person.length; i++){
-              if(value === person[i].dataValues.email){
-                throw new Error(`Email has been already taken`)
-              }
-            }
-          })
-        }
+        isEmail:true
       }
     },
     age: {
@@ -35,12 +24,24 @@ module.exports = function(sequelize, DataTypes) {
         // associations can be defined here
       },
       addStudent: function(first_name,last_name,birthdate,email,age){
-        Student.create({
-          first_name: first_name,
-          last_name: last_name,
-          birthdate: birthdate,
-          email:email,
-          age:age
+        Student.findAll({
+          attributes: ['email']
+        }).then(function(person){
+          for(var i = 0; i<person.length; i++){
+            if(email == person[i].dataValues.email){
+              console.log(email);
+              console.log(person[i].dataValues.email);
+              throw new Error(`Email has been already taken`)
+            }
+          }
+        }).then(function(){
+          Student.create({
+            first_name: first_name,
+            last_name: last_name,
+            birthdate: birthdate,
+            email:email,
+            age:age
+          })
         })
       },
       addRandomStudent:function(){
@@ -50,6 +51,8 @@ module.exports = function(sequelize, DataTypes) {
           birthdate: faker.date.past(),
           email: faker.internet.email(),
           age: Math.ceil(Math.random()*5+5)
+        }).then(function(data){
+          console.log(`New random student added to database`);
         })
       },
       getAllStudents: function() {
